@@ -1,0 +1,14 @@
+# Exclude the ./data directory.
+/data
+
+# Ignore the checkpoints, since git already takes care of versioning.
+.ipynb_checkpoints
+
+# Do not include the virtual environment.
+.venv
+
+# Do not include the logs to tensorboard.
+runs
+
+# Do not include the Python cache.
+__pycache__/
