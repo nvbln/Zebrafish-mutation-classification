@@ -8,7 +8,7 @@
 .venv
 
 # Do not include the logs to tensorboard.
-runs
+lightning_logs
 
 # Do not include the Python cache.
 __pycache__/
