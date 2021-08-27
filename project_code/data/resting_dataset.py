@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 
-import flammkuchen
+import torch
+import flammkuchen as fl
 import json
 import math
 
@@ -22,11 +23,10 @@ class RestingDataset(Dataset):
         self.fish_dictionaries = fish_dictionaries
         self.transform = transform
         
-        # TODO: We want to keep things efficient.
-        # So what we're going to do is to load the metadata in advance,
-        # since this is quite lightweight. Then we build a dictionary
-        # with this data and the behaviour file path. The behaviour
-        # itself will then only be loaded on the __getitem__ call.
+        # Load the metadata in advance, since this is quite lightweight.
+        # Then build a dictionary with this data and the behaviour file
+        # path. The behaviour itself will then only be loaded on the
+        # __getitem__ call.
         for dictionary in self.fish_dictionaries:
             with open(dictionary['metadata']) as metadata_file:
                 metadata_json = json.load(metadata_file)
@@ -46,7 +46,7 @@ class RestingDataset(Dataset):
         # We're interested in the start of the general and gain_lag
         # stimuli (the latter of which signals the end of the first
         # general stimuli portion).
-        stim_file = fl.load(fish_dictionaries[0]['stimulus'])
+        stim_file = fl.load(self.fish_dictionaries[0]['stimulus'])
 
         # Before the onset of a stimulus, the array contains NaNs.
         # Therefore we can simply search for the first non-NaN value.
@@ -63,13 +63,13 @@ class RestingDataset(Dataset):
                 break
 
     def __len__(self):
-       len(self.fish_dictionaries) 
+       return len(self.fish_dictionaries) 
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
 
-        dictionary = fish_dictionaries[idx]
+        dictionary = self.fish_dictionaries[idx]
 
         # Load the datafile.
         behaviour = fl.load(dictionary['behaviour'], '/data')
@@ -84,7 +84,12 @@ class RestingDataset(Dataset):
 
         # Add the data to the dictionary (we leave t out).
         dictionary['behavioural_data'] = \
-                behaviour[:-1, start_index_behaviour:end_index_behaviour]
+                behaviour[:-1][start_index_behaviour:end_index_behaviour]
+
+        # Convert the Pandas DataFrame to a Numpy array
+        # for further computations.
+        dictionary['behavioural_data'] = \
+                dictionary['behavioural_data'].to_numpy()
 
         # Apply transforms if any.
         if self.transform:
