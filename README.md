@@ -66,3 +66,9 @@ source .venv/bin/activate
 jupyter notebook
 ```
 and navigate to the notebook.
+
+## Committing the Jupyter Notebook
+
+Jupyter Notebook has a lot of metadata and output that it saves in the
+file. This will contaminate the versioning in Git. To keep the `diff`'s as
+clean as possible, remove the empty cells and run Cell > All Output > Clear.
