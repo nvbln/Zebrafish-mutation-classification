@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 
 import pytorch_lightning as pl
+import matplotlib.pyplot as plt
 
 # Define a Recurrent Neural Network
 class MutationNet(pl.LightningModule):
@@ -68,6 +69,14 @@ class MutationNet(pl.LightningModule):
 
         # Log to TensorBoard
         self.log('val_loss', loss)
+
+        # Log the confidence values to TensorBoard.
+        fig = plt.figure()
+        subplot = fig.add_subplot(111)
+        detached_y_hat = y_hat.detach()
+        subplot.plot(np.squeeze(detached_y_hat))
+        plt.plot(np.squeeze(detached_y_hat))
+        self.logger.experiment.add_figure('confidence_values', fig, global_step=self.global_step)
 
     def configure_optimizers(self):
         # Return an optimizer (i.e. Adam).
