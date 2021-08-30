@@ -15,6 +15,7 @@ class MutationNet(pl.LightningModule):
                             hidden_size = 20,
                             num_layers = 1,
                             batch_first=True)
+        self.linear = nn.Linear(20, 1)
         self.bceloss = nn.BCELoss()
 
     def forward(self, x, hiddens=None):
@@ -29,7 +30,11 @@ class MutationNet(pl.LightningModule):
         else:
             out, hiddens = self.lstm(x, hiddens)
 
-        return torch.sigmoid(out), hiddens
+        out = torch.sigmoid(out)
+        out = self.linear(out)
+        out = torch.sigmoid(out)
+
+        return out, hiddens
 
     def training_step(self, train_batch, batch_idx):
         # Calculates the loss for a batch.
