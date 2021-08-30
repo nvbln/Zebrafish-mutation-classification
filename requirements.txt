@@ -11,6 +11,7 @@ Cython==0.29.13
 decorator==4.4.1
 entrypoints==0.3
 enum34==1.1.6
+flammkuchen==0.9.2
 h5py==2.10.0
 html5lib==1.0.1
 ipykernel==5.1.3
