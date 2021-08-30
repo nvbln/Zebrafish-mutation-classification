@@ -76,7 +76,9 @@ class MutationNet(pl.LightningModule):
         detached_y_hat = y_hat.detach()
         subplot.plot(np.squeeze(detached_y_hat))
         plt.plot(np.squeeze(detached_y_hat))
-        self.logger.experiment.add_figure('confidence_values', fig, global_step=self.global_step)
+        self.logger.experiment.add_figure('confidence_values', 
+                                          fig, 
+                                          global_step=self.global_step)
 
     def configure_optimizers(self):
         # Return an optimizer (i.e. Adam).
