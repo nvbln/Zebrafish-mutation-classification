@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
+import math
 
 import pytorch_lightning as pl
 import matplotlib.pyplot as plt
@@ -22,9 +23,8 @@ class MutationNet(pl.LightningModule):
     def forward(self, x, hiddens=None):
         # Do the forward pass.
 
-        # TODO: We limit the sequence to 500 as it will result in NaNs
-        # in long(er) sequences. This bug should be fixed.
-        x = x[:, :500]
+        # Stop-gap solution: set nan to zero.
+        x[np.isnan(x)] = 0
 
         if hiddens == None:
             out, hiddens = self.lstm(x)
@@ -72,9 +72,7 @@ class MutationNet(pl.LightningModule):
 
         # Log the confidence values to TensorBoard.
         fig = plt.figure()
-        subplot = fig.add_subplot(111)
         detached_y_hat = y_hat.detach()
-        subplot.plot(np.squeeze(detached_y_hat))
         plt.plot(np.squeeze(detached_y_hat))
         self.logger.experiment.add_figure('confidence_values', 
                                           fig, 
