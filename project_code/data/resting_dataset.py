@@ -4,13 +4,18 @@ import torch
 import flammkuchen as fl
 import json
 import math
+import scipy
 
 class RestingDataset(Dataset):
     """Resting dataset. Uses free swimming behaviour without any stimuli
     as behavioural data. The data comes from the experimental part after
     the calibration and before any stimuli is given."""
 
-    def __init__(self, fish_dictionaries, transform=None):
+    def __init__(self, 
+                 fish_dictionaries, 
+                 transform=None,
+                 sampling_frequency=None
+                ):
         """
         Args:
             fish_dictionaries (list): list containing dictionaries (one
@@ -22,6 +27,7 @@ class RestingDataset(Dataset):
         """
         self.fish_dictionaries = fish_dictionaries
         self.transform = transform
+        self.sampling_frequency = sampling_frequency
         
         # Load the metadata in advance, since this is quite lightweight.
         # Then build a dictionary with this data and the behaviour file
@@ -95,5 +101,20 @@ class RestingDataset(Dataset):
         if self.transform:
             dictionary['behavioural_data'] = \
                     self.transform(dictionary['behavioural_data'])
+
+        # Resample the data such that all the sequences have the
+        # same sampling frequency.
+        if self.sampling_frequency:
+            # TODO: Throw out samples with a sampling frequency lower
+            # than the required sampling frequency.
+
+            # Calculate the number of samples if we were to have the
+            # desired sampling frequency.
+            duration = behaviour['t'][end_index_behaviour] \
+                       - behaviour['t'][start_index_behaviour]
+            num_samples = duration * self.sampling_frequency
+
+            dictionary['behavioural_data'] = scipy.signal.resample(
+                    dictionary['behavioural_data'], round(num_samples))
 
         return dictionary

@@ -12,10 +12,15 @@ from torchvision import transforms
 from .resting_dataset import RestingDataset
 
 class ZebrafishDataModule(pl.LightningDataModule):
-    def __init__(self, batch_size=32, data_dir='./data'):
+    def __init__(self, 
+                 batch_size=32,
+                 data_dir='./data',
+                 sampling_frequency=None
+                ):
         super().__init__()
         self.batch_size = batch_size
         self.data_dir = data_dir
+        self.sampling_frequency = sampling_frequency
 
     def setup(self, stage = None):
         # Make assignments here (val/train/test split).
@@ -88,7 +93,8 @@ class ZebrafishDataModule(pl.LightningDataModule):
         # use our data. I.e. we can specify a type of dataset that
         # uses the resting period, or a type of dataset that uses
         # the stimulus period.
-        dataset = RestingDataset(fish_dictionaries)
+        dataset = RestingDataset(fish_dictionaries, 
+                                 sampling_frequency=self.sampling_frequency)
 
         # Split the data, random split should not be a problem
         # if we specify the seed, as then the test set will always
