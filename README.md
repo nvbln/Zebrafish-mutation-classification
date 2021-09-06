@@ -41,6 +41,11 @@ or via pip:
 pip3 install virtualenv
 ```
 
+Note that Pytorch is among the requirements and should be automatically
+installed, but might not always work as expected. If any issues are
+encountered, please uninstall it and then reinstall it in the following
+way:
+
 If you want to run the network on a GPU, you should run the following:
 ```
 pip install torch==1.8.1+cu102 torchvision==0.9.1+cu102 -f https://download.pytorch.org/whl/torch_stable.html
