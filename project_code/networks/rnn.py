@@ -70,6 +70,14 @@ class MutationNet(pl.LightningModule):
                                           fig, 
                                           global_step=self.global_step)
 
+    def test_step(self, test_batch, batch_idx):
+        # This function works just like validation_step.
+        # Since we just want a log in Tensorboard, we'll call
+        # validation_step with the same parameters. Note that by default
+        # the logs will be appended to the earlier validation logs.
+        # To prevent this, one can reinitialise the trainer.
+        self.validation_step(test_batch, batch_idx)
+
     def configure_optimizers(self):
         # Return an optimizer (i.e. Adam).
         optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
