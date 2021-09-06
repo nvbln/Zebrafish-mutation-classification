@@ -5,7 +5,15 @@ Part of an internship at Portugues' lab. The goal of the internship is to build 
 The installation exists of two parts. One part is setting up the dataset,
 the other part is setting up the python virtual environment.
 
-_Still need to add how to setup the dataset._
+The expected format of the dataset is a series of directories, each
+containing a different subject, stored in the `./data` directory. The
+directory must contain a `*_behavior_log.hdf5` and `*_metadata.json` file.
+If these files are missing, the directory will be skipped. If the directory
+contains multiple files, the biggest behavior file in combination with its
+metadata file will be selected. The data is expected to come from Stytra
+and thus formatted in the way that Stytra saves its data files. Any
+recordings from Stytra (containing behavioural recordings) can be put in
+the data directory and used as input to the model with very little effort.
 
 The second part is a bit less straightforward to set up. As the `torch`
 and `torchvision` packages have to be installed separately. See the end
