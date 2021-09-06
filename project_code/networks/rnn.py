@@ -65,7 +65,7 @@ class MutationNet(pl.LightningModule):
         # Log the confidence values to TensorBoard.
         fig = plt.figure()
         detached_y_hat = y_hat.detach()
-        plt.plot(np.squeeze(detached_y_hat))
+        plt.plot(np.squeeze(detached_y_hat[0]))
         self.logger.experiment.add_figure('confidence_values', 
                                           fig, 
                                           global_step=self.global_step)
