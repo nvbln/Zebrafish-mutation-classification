@@ -81,5 +81,12 @@ class MutationNet(pl.LightningModule):
     def configure_optimizers(self):
         # Return an optimizer (i.e. Adam).
         optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
-        return optimizer
+
+        # Implement a learning rate scheduler.
+        lr_scheduler = {
+            'scheduler': torch.optim.lr_scheduler.ExponentialLR(optimizer, 0.99),
+            'interval': 'step'
+        }
+
+        return [optimizer], [lr_scheduler]
 
