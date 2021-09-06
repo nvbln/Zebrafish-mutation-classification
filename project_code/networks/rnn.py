@@ -39,14 +39,10 @@ class MutationNet(pl.LightningModule):
 
     def training_step(self, train_batch, batch_idx):
         # Calculates the loss for a batch.
-        x = train_batch['behavioural_data']
+        x, y = train_batch
 
         y_hat, _ = self.forward(x)
 
-        if train_batch['treatment'] == 'None':
-            y = torch.ones(y_hat.shape, dtype=torch.double)    
-        else:
-            y = torch.zeros(y_hat.shape, dtype=torch.double)    
         loss = self.bceloss(y_hat.double(), y.double())
 
         # Log to TensorBoard.
@@ -57,13 +53,9 @@ class MutationNet(pl.LightningModule):
     def validation_step(self, val_batch, batch_idx):
         # The same as in training_step,
         # but now we only log the loss and don't return it:
-        x = val_batch['behavioural_data']
-        y_hat, _ = self.forward(x)
+        x, y = val_batch
 
-        if val_batch['treatment'] == 'None':
-            y = torch.ones(y_hat.shape, dtype=torch.double)    
-        else:
-            y = torch.zeros(y_hat.shape, dtype=torch.double)    
+        y_hat, _ = self.forward(x)
 
         loss = self.bceloss(y_hat, y)
 

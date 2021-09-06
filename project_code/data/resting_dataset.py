@@ -117,4 +117,11 @@ class RestingDataset(Dataset):
             dictionary['behavioural_data'] = scipy.signal.resample(
                     dictionary['behavioural_data'], round(num_samples))
 
-        return dictionary
+        # Create a vector with the correct classification.
+        y_len = dictionary['behavioural_data'].shape[0]
+        if dictionary['treatment'] == 'None':
+            y = torch.ones((y_len, 1), dtype=torch.double)    
+        else:
+            y = torch.zeros((y_len, 1), dtype=torch.double)    
+
+        return (dictionary['behavioural_data'], y)
