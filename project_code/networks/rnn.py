@@ -8,16 +8,19 @@ import matplotlib.pyplot as plt
 
 # Define a Recurrent Neural Network
 class MutationNet(pl.LightningModule):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, config = None):
+        super().__init__() 
+
+        # Save the hyperparameters to the model checkpoint.
+        self.save_hyperparameters(config)
 
         # Define the structure of the network
         # Note: this is a very provisional model for testing purposes
-        self.lstm = nn.LSTM(input_size = 11, 
-                            hidden_size = 20,
-                            num_layers = 1,
+        self.lstm = nn.LSTM(input_size = self.hparams.input_size, 
+                            hidden_size = self.hparams.hidden_size,
+                            num_layers = self.hparams.num_layers,
                             batch_first=True)
-        self.linear = nn.Linear(20, 1)
+        self.linear = nn.Linear(self.hparams.hidden_size, 1)
         self.bceloss = nn.BCELoss()
 
     def forward(self, x, hiddens=None):
@@ -80,7 +83,8 @@ class MutationNet(pl.LightningModule):
 
     def configure_optimizers(self):
         # Return an optimizer (i.e. Adam).
-        optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
+        optimizer = torch.optim.Adam(self.parameters(), 
+                    lr=self.hparams.learning_rate)
 
         # Implement a learning rate scheduler.
         lr_scheduler = {
