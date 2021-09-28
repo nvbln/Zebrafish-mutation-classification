@@ -5,11 +5,11 @@ import flammkuchen as fl
 import json
 import math
 import scipy
+import numpy as np
 
-class RestingDataset(Dataset):
-    """Resting dataset. Uses free swimming behaviour without any stimuli
-    as behavioural data. The data comes from the experimental part after
-    the calibration and before any stimuli is given."""
+class FreeSwimmingDataset(Dataset):
+    """Free Swimming dataset. Uses free swimming behaviour with a
+    static background stimulus."""
 
     def __init__(self, 
                  fish_dictionaries, 
@@ -40,33 +40,7 @@ class RestingDataset(Dataset):
                 # Add relevant metadata entries to the dictionary.
                 dictionary['genotype'] = \
                         metadata_json['general']['animal']['genotype']
-                dictionary['species'] = \
-                        metadata_json['general']['animal']['species']
-                dictionary['treatment'] = \
-                        metadata_json['general']['animal']['treatment']
                 dictionary['fish_id'] = metadata_json['general']['fish_id']
-
-        # To prevent having to load every stimulus file, we'll assume that
-        # the experimental setup is the same for every fish and therefore
-        # extracting the times from the first stimulus file should suffice.
-        # We're interested in the start of the general and gain_lag
-        # stimuli (the latter of which signals the end of the first
-        # general stimuli portion).
-        stim_file = fl.load(self.fish_dictionaries[0]['stimulus'])
-
-        # Before the onset of a stimulus, the array contains NaNs.
-        # Therefore we can simply search for the first non-NaN value.
-        general_base_vel = stim_file['data']['general_cl1D_base_vel']
-        for i in range(len(general_base_vel)):
-            if not math.isnan(general_base_vel[i]):
-                self.start_t = stim_file['data']['t'][i]
-                break
-
-        gain_lag_base_vel = stim_file['data']['gain_lag_cl1D_base_vel']
-        for i in range(len(gain_lag_base_vel)):
-            if not math.isnan(gain_lag_base_vel[i]):
-                self.end_t = stim_file['data']['t'][i]
-                break
 
     def __len__(self):
        return len(self.fish_dictionaries) 
@@ -80,22 +54,13 @@ class RestingDataset(Dataset):
         # Load the datafile.
         behaviour = fl.load(dictionary['behaviour'], '/data')
 
-        # Get the indices belonging to start_t and end_t.
-        start_index_behaviour = next(index for index, value in \
-                                     enumerate(behaviour['t']) \
-                                     if value >= self.start_t)
-        end_index_behaviour = next(index for index, value in \
-                                   enumerate(behaviour['t']) \
-                                   if value >= self.end_t)
+        # Add the data to the dictionary as a numpy matrix.
+        dictionary['behavioural_data'] = behaviour.to_numpy()
 
-        # Add the data to the dictionary (we leave t out).
-        dictionary['behavioural_data'] = \
-                behaviour[:-1][start_index_behaviour:end_index_behaviour]
-
-        # Convert the Pandas DataFrame to a Numpy array
-        # for further computations.
-        dictionary['behavioural_data'] = \
-                dictionary['behavioural_data'].to_numpy()
+        # Cut out irrelevant columns.
+        # Limit sequence length to not run out of memory
+        # (will be done more appropriately in the future).
+        dictionary['behavioural_data'] = dictionary['behavioural_data'][:100000,:15]
 
         # Apply transforms if any.
         if self.transform:
@@ -119,7 +84,7 @@ class RestingDataset(Dataset):
 
         # Create a vector with the correct classification.
         y_len = dictionary['behavioural_data'].shape[0]
-        if dictionary['treatment'] == 'None':
+        if dictionary['genotype'] == 'TL':
             y = torch.ones((y_len, 1), dtype=torch.double)    
         else:
             y = torch.zeros((y_len, 1), dtype=torch.double)    

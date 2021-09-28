@@ -9,7 +9,7 @@ import pytorch_lightning as pl
 
 from torchvision import transforms
 
-from .resting_dataset import RestingDataset
+from .free_swimming_dataset import FreeSwimmingDataset
 
 class ZebrafishDataModule(pl.LightningDataModule):
     def __init__(self, 
@@ -93,7 +93,7 @@ class ZebrafishDataModule(pl.LightningDataModule):
         # use our data. I.e. we can specify a type of dataset that
         # uses the resting period, or a type of dataset that uses
         # the stimulus period.
-        dataset = RestingDataset(fish_dictionaries, 
+        dataset = FreeSwimmingDataset(fish_dictionaries, 
                                  sampling_frequency=self.sampling_frequency)
 
         # Split the data, random split should not be a problem
@@ -109,6 +109,7 @@ class ZebrafishDataModule(pl.LightningDataModule):
         # In that case we add it to the test set.
         num_test = num_test +  num_samples - (num_train + num_val + num_test)
 
+        # TODO: Give a seed!
         self.train, self.val, self.test = \
                 torch.utils.data.random_split(dataset, \
                 [num_train, num_val, num_test])
