@@ -3,16 +3,19 @@ bouter==0.2.0
 jupyterlab==3.3.2
 matplotlib==3.5.1
 pytorch-lightning==1.5.10
+ray==1.12.0
 scikit-image==0.19.2
+tabulate==0.8.9
+tensorboardx==2.5
 torchvision==0.12.0
 # absl-py==1.0.0 # Installed as dependency for tensorboard
-# aiosignal==1.2.0 # Installed as dependency for aiohttp
+# aiosignal==1.2.0 # Installed as dependency for aiohttp, ray
 # anyio==3.5.0 # Installed as dependency for jupyter-server
-# argon2-cffi==21.3.0 # Installed as dependency for notebook, jupyter-server
+# argon2-cffi==21.3.0 # Installed as dependency for jupyter-server, notebook
 # argon2-cffi-bindings==21.2.0 # Installed as dependency for argon2-cffi
 # asttokens==2.0.5 # Installed as dependency for stack-data
 # async-timeout==4.0.2 # Installed as dependency for aiohttp
-# attrs==21.4.0 # Installed as dependency for jsonschema, aiohttp
+# attrs==21.4.0 # Installed as dependency for aiohttp, jsonschema, ray
 # babel==2.9.1 # Installed as dependency for jupyterlab-server
 # backcall==0.2.0 # Installed as dependency for ipython
 # beautifulsoup4==4.10.0 # Installed as dependency for nbconvert
@@ -21,85 +24,90 @@ torchvision==0.12.0
 # certifi==2021.10.8 # Installed as dependency for requests
 # cffi==1.15.0 # Installed as dependency for argon2-cffi-bindings
 # charset-normalizer==2.0.12 # Installed as dependency for requests, aiohttp
+# click==8.1.3 # Installed as dependency for ray
 # cycler==0.11.0 # Installed as dependency for matplotlib
 # debugpy==1.6.0 # Installed as dependency for ipykernel
 # decorator==5.1.1 # Installed as dependency for ipython
 # defusedxml==0.7.1 # Installed as dependency for nbconvert
-# entrypoints==0.4 # Installed as dependency for nbconvert, jupyterlab-server, jupyter-client
+# distlib==0.3.4 # Installed as dependency for virtualenv
+# entrypoints==0.4 # Installed as dependency for jupyterlab-server, jupyter-client, nbconvert
 # executing==0.8.3 # Installed as dependency for stack-data
+# filelock==3.6.0 # Installed as dependency for virtualenv, ray
 # flammkuchen==0.9.2 # Installed as dependency for bouter
 # fonttools==4.31.2 # Installed as dependency for matplotlib
-# frozenlist==1.3.0 # Installed as dependency for aiosignal, aiohttp
+# frozenlist==1.3.0 # Installed as dependency for aiosignal, aiohttp, ray
 # fsspec==2022.2.0 # Installed as dependency for pytorch-lightning
 # future==0.18.2 # Installed as dependency for pytorch-lightning
 # google-auth==2.6.2 # Installed as dependency for google-auth-oauthlib, tensorboard
 # google-auth-oauthlib==0.4.6 # Installed as dependency for tensorboard
-# grpcio==1.44.0 # Installed as dependency for tensorboard
-# idna==3.3 # Installed as dependency for yarl, anyio, requests
+# grpcio==1.43.0 # Installed as dependency for tensorboard, ray
+# idna==3.3 # Installed as dependency for requests, anyio, yarl
 # imageio==2.16.1 # Installed as dependency for scikit-image
 # importlib-metadata==4.11.3 # Installed as dependency for markdown
 # ipykernel==6.9.2 # Installed as dependency for notebook
 # ipython==8.2.0 # Installed as dependency for jupyterlab, ipykernel
 # ipython-genutils==0.2.0 # Installed as dependency for notebook
 # jedi==0.18.1 # Installed as dependency for ipython
-# jinja2==3.1.1 # Installed as dependency for nbconvert, jupyterlab, notebook, jupyterlab-server, jupyter-server
+# jinja2==3.1.1 # Installed as dependency for notebook, jupyterlab-server, jupyterlab, jupyter-server, nbconvert
 # json5==0.9.6 # Installed as dependency for jupyterlab-server
-# jsonschema==4.4.0 # Installed as dependency for nbformat, jupyterlab-server
-# jupyter-client==7.1.2 # Installed as dependency for notebook, nbclient, ipykernel, jupyter-server
-# jupyter-core==4.9.2 # Installed as dependency for nbconvert, jupyterlab, notebook, nbformat, jupyter-server, jupyter-client
-# jupyter-server==1.15.6 # Installed as dependency for notebook-shim, nbclassic, jupyterlab, jupyterlab-server
+# jsonschema==4.4.0 # Installed as dependency for jupyterlab-server, nbformat, ray
+# jupyter-client==7.1.2 # Installed as dependency for nbclient, jupyter-server, ipykernel, notebook
+# jupyter-core==4.9.2 # Installed as dependency for jupyter-client, nbconvert, notebook, jupyterlab, jupyter-server, nbformat
+# jupyter-server==1.15.6 # Installed as dependency for jupyterlab-server, jupyterlab, notebook-shim, nbclassic
 # jupyterlab-pygments==0.1.2 # Installed as dependency for nbconvert
 # jupyterlab-server==2.11.2 # Installed as dependency for jupyterlab
 # kiwisolver==1.4.1 # Installed as dependency for matplotlib
 # llvmlite==0.38.0 # Installed as dependency for numba
 # markdown==3.3.6 # Installed as dependency for tensorboard
-# markupsafe==2.1.1 # Installed as dependency for nbconvert, jinja2
+# markupsafe==2.1.1 # Installed as dependency for jinja2, nbconvert
 # matplotlib-inline==0.1.3 # Installed as dependency for ipython, ipykernel
 # mistune==0.8.4 # Installed as dependency for nbconvert
-# multidict==6.0.2 # Installed as dependency for yarl, aiohttp
+# msgpack==1.0.3 # Installed as dependency for ray
+# multidict==6.0.2 # Installed as dependency for aiohttp, yarl
 # nbclassic==0.3.7 # Installed as dependency for jupyterlab
 # nbclient==0.5.13 # Installed as dependency for nbconvert
-# nbconvert==6.4.5 # Installed as dependency for notebook, jupyter-server
-# nbformat==5.2.0 # Installed as dependency for notebook, nbclient, nbconvert, jupyter-server
-# nest-asyncio==1.5.4 # Installed as dependency for notebook, nbclient, ipykernel, jupyter-client
+# nbconvert==6.4.5 # Installed as dependency for jupyter-server, notebook
+# nbformat==5.2.0 # Installed as dependency for nbclient, jupyter-server, nbconvert, notebook
+# nest-asyncio==1.5.4 # Installed as dependency for jupyter-client, nbclient, ipykernel, notebook
 # networkx==2.7.1 # Installed as dependency for scikit-image
 # notebook==6.4.10 # Installed as dependency for nbclassic
 # notebook-shim==0.1.0 # Installed as dependency for nbclassic
 # numba==0.55.1 # Installed as dependency for bouter
 # numexpr==2.8.1 # Installed as dependency for tables
-# numpy==1.21.5 # Installed as dependency for torchvision, pywavelets, scikit-image, tables, flammkuchen, imageio, numexpr, bouter, matplotlib, scipy, pytorch-lightning, torchmetrics, tensorboard, tifffile, numba, pandas
+# numpy==1.21.5 # Installed as dependency for tifffile, tensorboardx, numba, ray, tables, torchvision, tensorboard, torchmetrics, pandas, pywavelets, flammkuchen, imageio, scipy, scikit-image, bouter, numexpr, matplotlib, pytorch-lightning
 # oauthlib==3.2.0 # Installed as dependency for requests-oauthlib
-# packaging==21.3 # Installed as dependency for jupyterlab, scikit-image, tables, jupyterlab-server, matplotlib, pytorch-lightning, torchmetrics, jupyter-server, bleach, numexpr
+# packaging==21.3 # Installed as dependency for torchmetrics, tables, bleach, jupyterlab-server, jupyterlab, scikit-image, jupyter-server, numexpr, matplotlib, pytorch-lightning
 # pandas==1.4.1 # Installed as dependency for bouter
 # pandocfilters==1.5.0 # Installed as dependency for nbconvert
 # parso==0.8.3 # Installed as dependency for jedi
 # pexpect==4.8.0 # Installed as dependency for ipython
 # pickleshare==0.7.5 # Installed as dependency for ipython
-# pillow==9.0.1 # Installed as dependency for matplotlib, torchvision, imageio, scikit-image
-# prometheus-client==0.13.1 # Installed as dependency for notebook, jupyter-server
+# pillow==9.0.1 # Installed as dependency for imageio, torchvision, scikit-image, matplotlib
+# platformdirs==2.5.2 # Installed as dependency for virtualenv
+# prometheus-client==0.13.1 # Installed as dependency for jupyter-server, notebook
 # prompt-toolkit==3.0.28 # Installed as dependency for ipython
-# protobuf==3.19.4 # Installed as dependency for tensorboard
+# protobuf==3.19.4 # Installed as dependency for tensorboard, tensorboardx, ray
 # psutil==5.9.0 # Installed as dependency for ipykernel
 # ptyprocess==0.7.0 # Installed as dependency for pexpect, terminado
 # pure-eval==0.2.2 # Installed as dependency for stack-data
-# pyasn1==0.4.8 # Installed as dependency for pyasn1-modules, rsa
+# pyasn1==0.4.8 # Installed as dependency for rsa, pyasn1-modules
 # pyasn1-modules==0.2.8 # Installed as dependency for google-auth
 # pycparser==2.21 # Installed as dependency for cffi
-# pydeprecate==0.3.1 # Installed as dependency for pytorch-lightning, torchmetrics
-# pygments==2.11.2 # Installed as dependency for nbconvert, ipython, jupyterlab-pygments
-# pyparsing==3.0.7 # Installed as dependency for matplotlib, packaging
+# pydeprecate==0.3.1 # Installed as dependency for torchmetrics, pytorch-lightning
+# pygments==2.11.2 # Installed as dependency for ipython, jupyterlab-pygments, nbconvert
+# pyparsing==3.0.7 # Installed as dependency for packaging, matplotlib
 # pyrsistent==0.18.1 # Installed as dependency for jsonschema
-# python-dateutil==2.8.2 # Installed as dependency for matplotlib, pandas, jupyter-client
-# pytz==2022.1 # Installed as dependency for pandas, babel
+# python-dateutil==2.8.2 # Installed as dependency for jupyter-client, matplotlib, pandas
+# pytz==2022.1 # Installed as dependency for babel, pandas
 # pywavelets==1.3.0 # Installed as dependency for scikit-image
-# pyyaml==6.0 # Installed as dependency for pytorch-lightning
-# pyzmq==22.3.0 # Installed as dependency for notebook, jupyter-server, jupyter-client
-# requests==2.27.1 # Installed as dependency for torchvision, requests-oauthlib, tensorboard, jupyterlab-server
+# pyyaml==6.0 # Installed as dependency for pytorch-lightning, ray
+# pyzmq==22.3.0 # Installed as dependency for jupyter-client, jupyter-server, notebook
+# requests==2.27.1 # Installed as dependency for torchvision, ray, tensorboard, jupyterlab-server, requests-oauthlib
 # requests-oauthlib==1.3.1 # Installed as dependency for google-auth-oauthlib
 # rsa==4.8 # Installed as dependency for google-auth
-# scipy==1.8.0 # Installed as dependency for flammkuchen, scikit-image
-# send2trash==1.8.0 # Installed as dependency for notebook, jupyter-server
-# six==1.16.0 # Installed as dependency for grpcio, asttokens, python-dateutil, bleach, absl-py, google-auth
+# scipy==1.8.0 # Installed as dependency for scikit-image, flammkuchen
+# send2trash==1.8.0 # Installed as dependency for jupyter-server, notebook
+# six==1.16.0 # Installed as dependency for python-dateutil, asttokens, tensorboardx, bleach, absl-py, google-auth, grpcio, virtualenv
 # sniffio==1.2.0 # Installed as dependency for anyio
 # soupsieve==2.3.1 # Installed as dependency for beautifulsoup4
 # stack-data==0.2.0 # Installed as dependency for ipython
@@ -107,16 +115,17 @@ torchvision==0.12.0
 # tensorboard==2.8.0 # Installed as dependency for pytorch-lightning
 # tensorboard-data-server==0.6.1 # Installed as dependency for tensorboard
 # tensorboard-plugin-wit==1.8.1 # Installed as dependency for tensorboard
-# terminado==0.13.3 # Installed as dependency for notebook, jupyter-server
+# terminado==0.13.3 # Installed as dependency for jupyter-server, notebook
 # testpath==0.6.0 # Installed as dependency for nbconvert
 # tifffile==2022.3.25 # Installed as dependency for scikit-image
-# torch==1.11.0 # Installed as dependency for pytorch-lightning, torchvision, torchmetrics
+# torch==1.11.0 # Installed as dependency for torchmetrics, torchvision, pytorch-lightning
 # torchmetrics==0.7.3 # Installed as dependency for pytorch-lightning
-# tornado==6.1 # Installed as dependency for jupyterlab, terminado, notebook, ipykernel, jupyter-server, jupyter-client
+# tornado==6.1 # Installed as dependency for jupyter-client, notebook, jupyterlab, terminado, jupyter-server, ipykernel
 # tqdm==4.63.1 # Installed as dependency for pytorch-lightning
-# traitlets==5.1.1 # Installed as dependency for nbconvert, notebook, nbformat, jupyter-core, matplotlib-inline, ipython, ipykernel, jupyter-server, jupyter-client, nbclient
-# typing-extensions==4.1.1 # Installed as dependency for pytorch-lightning, torchvision, torch
+# traitlets==5.1.1 # Installed as dependency for ipython, nbclient, nbformat, jupyter-core, jupyter-client, notebook, ipykernel, jupyter-server, matplotlib-inline, nbconvert
+# typing-extensions==4.1.1 # Installed as dependency for torch, torchvision, pytorch-lightning
 # urllib3==1.26.9 # Installed as dependency for requests
+# virtualenv==20.14.1 # Installed as dependency for ray
 # wcwidth==0.2.5 # Installed as dependency for prompt-toolkit
 # webencodings==0.5.1 # Installed as dependency for bleach
 # websocket-client==1.3.1 # Installed as dependency for jupyter-server
