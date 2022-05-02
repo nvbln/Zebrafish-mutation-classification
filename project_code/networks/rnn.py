@@ -36,20 +36,33 @@ class MutationNet(pl.LightningModule):
         x[np.isnan(x)] = 0
 
         if hiddens == None:
-            out, hiddens = self.lstm(x)
+            out, (hidden_state, cell_state) = self.lstm(x)
+            # When running with Ray there is no cell_state
+            # Reason is not known, needs fixing.
+            #out, hidden_state = self.lstm(x)
         else:
-            out, hiddens = self.lstm(x, hiddens)
+            out, (hidden_state, cell_state) = self.lstm(x)
+            # When running with Ray there is no cell_state
+            # Reason is not known, needs fixing.
+            #out, hidden_state = self.lstm(x, hiddens)
 
-        out = torch.sigmoid(out)
-        out = self.linear(out)
-        out = torch.sigmoid(out)
+        #result = torch.sigmoid(out)
+        hidden_result = self.linear(hidden_state[-1])
+        hidden_result = torch.sigmoid(hidden_result)
+        
+        # For tracking of confidence values.
+        out_result = self.linear(out)
+        out_result = torch.sigmoid(out_result)
 
-        return out, hiddens
+        return hidden_result, out_result
+        
+        #return self.model(x)
 
     def training_step(self, train_batch, batch_idx):
         # Calculates the loss for a batch.
         x, y = train_batch
 
+        #y_hat = self.forward(x)
         y_hat, _ = self.forward(x)
 
         loss = self.bceloss(y_hat.double(), y.double())
@@ -64,7 +77,8 @@ class MutationNet(pl.LightningModule):
         # but now we only log the loss and don't return it:
         x, y = val_batch
 
-        y_hat, _ = self.forward(x)
+        y_hat, out = self.forward(x)
+        #y_hat = self.forward(x)
 
         loss = self.bceloss(y_hat, y)
 
@@ -73,8 +87,8 @@ class MutationNet(pl.LightningModule):
 
         # Log the confidence values to TensorBoard.
         fig = plt.figure()
-        detached_y_hat = y_hat.detach()
-        plt.plot(np.squeeze(detached_y_hat[0]))
+        detached_out = out.detach()
+        #plt.plot(np.squeeze(detached_out[0]))
         self.logger.experiment.add_figure('confidence_values', 
                                           fig, 
                                           global_step=self.global_step)
