@@ -84,8 +84,10 @@ class FreeSwimmingDataset(Dataset):
         # Create a vector with the correct classification.
         y_len = dictionary['behavioural_data'].shape[0]
         if dictionary['genotype'] == 'TL':
-            y = torch.ones((y_len, 1), dtype=torch.double)    
+            #y = torch.ones((y_len, 1), dtype=torch.double)
+            y = np.ones((1,))
         else:
-            y = torch.zeros((y_len, 1), dtype=torch.double)    
+            #y = torch.zeros((y_len, 1), dtype=torch.double)
+            y = np.zeros((1,))
 
         return (dictionary['behavioural_data'], y)
