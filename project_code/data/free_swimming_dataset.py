@@ -75,8 +75,7 @@ class FreeSwimmingDataset(Dataset):
 
             # Calculate the number of samples if we were to have the
             # desired sampling frequency.
-            duration = behaviour['t'][end_index_behaviour] \
-                       - behaviour['t'][start_index_behaviour]
+            duration = behaviour['t'].iloc[-1]
             num_samples = duration * self.sampling_frequency
 
             dictionary['behavioural_data'] = scipy.signal.resample(
